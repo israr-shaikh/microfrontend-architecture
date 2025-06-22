@@ -1,4 +1,4 @@
-package com.microfrontendapp
+package com.equitybasketcapital.microfrontend
 
 import android.app.Application
 import com.facebook.react.PackageList

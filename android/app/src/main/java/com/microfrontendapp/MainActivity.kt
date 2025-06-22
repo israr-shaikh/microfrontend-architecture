@@ -1,4 +1,4 @@
-package com.microfrontendapp
+package com.equitybasketcapital.microfrontend
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
