@@ -10,9 +10,9 @@ on:
 
 jobs:
   lint-and-test:
-   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
- steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -25,9 +25,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-           node-version: '22.9.0'
+          node-version: '22.9.0'
 
-   - name: Cache Node.js modules
+      - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
           path: node_modules
@@ -35,7 +35,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-   - name: Install Node.js dependencies
+      - name: Install Node.js dependencies
         run: npm install
 
       - name: Run Prettier
@@ -47,8 +47,7 @@ jobs:
       - name: Run Unit Tests
         run: npm run test
 
-
-          - name: Send Discord notification on failure
+      - name: Send Discord notification on failure
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
@@ -63,7 +62,6 @@ jobs:
                -X POST \
                -d '{"content": "✅ Testing Passed"}' \
                ${{ secrets.TEAMSWEBHOOK }}
-     
 
   deploy:
     runs-on: ubuntu-latest
