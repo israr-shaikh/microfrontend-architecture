@@ -31,11 +31,19 @@ platform :android do
   # end
 
 
-  desc "build bundle file and upload to Google Play"
-  lane : playstore do
-    gradle(task: "bundle", build_type: "Release")
-    upload_to_play_store(track: 'internal', release_status: 'draft',)
+  lane :playstore do
+    gradle(
+      task: 'bundle',
+      build_type: 'Release'
+    )
+    
+    upload_to_play_store(
+      track: 'internal',
+      release_status: 'draft',
+      )
+     
   end
+
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
