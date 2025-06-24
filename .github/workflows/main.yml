@@ -47,7 +47,7 @@ jobs:
       - name: Run Unit Tests
         run: npm run test
 
-      - name: Send Discord notification on failure
+      - name: Send Teams notification on failure
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
@@ -55,7 +55,7 @@ jobs:
                -d '{"content": "🚨 CI/CD Build Failed! Error logs: Testing / Linting / Prettier Failed!"}' \
                ${{ secrets.TEAMSWEBHOOK }}
 
-      - name: Send Discord notification on success
+      - name: Send Teams notification on success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
@@ -102,7 +102,7 @@ jobs:
           cd android
           fastlane playstore
 
-      - name: Send Discord notification on failure
+      - name: Send Teams notification on failure
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
@@ -110,7 +110,7 @@ jobs:
                -d '{"content": "🚨 Deployment Failed! Error logs:Fast Lane Service Failed"}' \
                ${{ secrets.TEAMSWEBHOOK }}
 
-      - name: Send Discord notification on success
+      - name: Send Teams notification on success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \

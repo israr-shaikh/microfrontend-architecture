@@ -32,15 +32,26 @@ platform :android do
 
 
   lane :playstore do
-    gradle(
-      task: 'bundle',
-      build_type: 'Release'
-    )
     
-    upload_to_play_store(
-      track: 'internal',
-      release_status: 'draft',
-      )
+    # gradle(
+    #   task: 'bundle',
+    #   build_type: 'Release'
+    # )
+
+  #   gradle(
+  #   task: "bundle",
+  #   build_type: "Release",
+  #   properties: {
+  #     "android.injected.signing.store.file" => "keystore.jks",
+  #     "android.injected.signing.store.password" => "store_password",
+  #     "android.injected.signing.key.alias" => "key_alias",
+  #     "android.injected.signing.key.password" => "key_password",
+  #   }
+  # )
+
+
+    gradle(task: "clean bundleRelease")
+    upload_to_play_store(track: 'internal', release_status: 'draft')
      
   end
 
