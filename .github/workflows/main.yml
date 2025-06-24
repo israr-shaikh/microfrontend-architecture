@@ -51,17 +51,29 @@ jobs:
         if: failure() || cancelled()
         run: |
           curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "🚨 CI/CD Build Failed! Error logs: Testing / Linting / Prettier Failed!"}' \
-               ${{ secrets.TEAMSWEBHOOK }}
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "FF0000",
+                "title": "🚀 Lint and test status",
+                "text": "🚨 CI/CD Build Failed! Error logs: Testing / Linting / Prettier Failed!"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
 
       - name: Send Teams notification on success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "✅ Testing Passed"}' \
-               ${{ secrets.TEAMSWEBHOOK }}
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "0076D7",
+                "title": "🚀 Lint and test status",
+                "text": "✅ Testing Passed"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -107,16 +119,27 @@ jobs:
       - name: Send Teams notification on failure
         if: failure() || cancelled()
         run: |
-          set -x
           curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "🚨 Deployment Failed! Error logs:Fast Lane Service Failed"}' \
-               ${{ secrets.TEAMSWEBHOOK }}
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "FF0000",
+                "title": "🚀 App deployment status",
+                "text": "🚨 Deployment Failed! Error logs:Fast Lane Service Failed"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
 
       - name: Send Teams notification on success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
-               -X POST \
-               -d '{"content": "✅ Deployed To Play Store 🎉!"}' \
-               ${{ secrets.TEAMSWEBHOOK }}
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "0076D7",
+                "title": "🚀 App deployment status",
+                "text": "✅ Deployed To Play Store 🎉!"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
