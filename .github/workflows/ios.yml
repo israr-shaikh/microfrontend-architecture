@@ -66,15 +66,15 @@ jobs:
         run: |
           echo "$APP_STORE_CONNECT_KEY_BASE64" | base64 --decode > ios/fastlane/AuthKey_P35FX53X5A.p8
 
-      - name: Fastlane Match (App Store)
-        run: |
-          cd ios
-          bundle exec fastlane match appstore --readonly
+      # - name: Fastlane Match (App Store)
+      #   run: |
+      #     cd ios
+      #     fastlane match appstore --readonly
 
       # - name: Fastlane Match (Development)
       #   run: |
       #     cd ios
-      #     bundle exec fastlane match development --readonly
+      #     fastlane match development --readonly
 
       - name: Build and Upload to TestFlight
         env:
@@ -83,7 +83,7 @@ jobs:
           APP_STORE_CONNECT_KEY_PATH: ios/fastlane/AuthKey_P35FX53X5A.p8
         run: |
           cd ios
-          bundle exec fastlane release
+          fastlane release
 
       - name: Clean up API Key
         run: rm -f ios/fastlane/AuthKey_P35FX53X5A.p8
