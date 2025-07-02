@@ -1,4 +1,4 @@
-name: CI and CD
+name: Android CI and CD
 
 on:
   workflow_dispatch:

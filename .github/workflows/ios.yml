@@ -1,4 +1,4 @@
-name: iOS TestFlight CI/CD
+name: iOS CI and CD
 
 on:
   workflow_dispatch:
