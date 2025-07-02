@@ -76,6 +76,13 @@ jobs:
       #     cd ios
       #     fastlane match development --readonly
 
+      - name: Set up SSH for Match
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MATCH_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Build and Upload to TestFlight
         env:
           APP_STORE_CONNECT_KEY_ID: P35FX53X5A
