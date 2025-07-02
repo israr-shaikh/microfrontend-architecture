@@ -29,8 +29,26 @@ jobs:
         with:
           node-version: '22.9.0'
 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Node.js dependencies
         run: npm install
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v3
+        with:
+          path: |
+            ios/Pods
+            ios/Podfile.lock
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: Install CocoaPods dependencies
         run: |
