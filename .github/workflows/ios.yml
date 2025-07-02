@@ -88,6 +88,7 @@ jobs:
           APP_STORE_CONNECT_KEY_ID: P35FX53X5A
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_PATH: ios/fastlane/AuthKey_P35FX53X5A.p8
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         run: |
           cd ios
           fastlane release
