@@ -122,7 +122,7 @@ jobs:
                 "@context": "https://schema.org/extensions",
                 "summary": "Notification",
                 "themeColor": "FF0000",
-                "title": "🚀 App deployment status",
+                "title": "🚀 Android App deployment status",
                 "text": "🚨 Deployment Failed! Error logs:Fast Lane Service Failed"
                 }' \
                 ${{ secrets.TEAMSWEBHOOK }}
@@ -136,7 +136,7 @@ jobs:
                 "@context": "https://schema.org/extensions",
                 "summary": "Notification",
                 "themeColor": "0076D7",
-                "title": "🚀 App deployment status",
+                "title": "🚀 Android App deployment status",
                 "text": "✅ Deployed To Play Store 🎉!"
                 }' \
                 ${{ secrets.TEAMSWEBHOOK }}

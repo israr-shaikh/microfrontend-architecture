@@ -1,8 +1,7 @@
 app_identifier("com.valuefy.microfrontend") # The bundle identifier of your app
-apple_id("isrars@valuefy.com") # Your Apple Developer Portal username
 
 itc_team_id("119258739") # App Store Connect Team ID
 team_id("D6WN6BDJ7R") # Developer Portal Team ID
-
+apple_id("isrars@valuefy.com")
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile

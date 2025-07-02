@@ -1,0 +1,99 @@
+name: iOS TestFlight CI/CD
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  testflight:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Set up Bundler
+        run: gem install bundler
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.9.0'
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+
+      # - name: Run iOS Unit Tests
+      #   run: |
+      #     cd ios
+      #     xcodebuild test -workspace MicrofrontendApp.xcworkspace -scheme MicrofrontendApp -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest'
+
+      - name: Decode App Store Connect API Key
+        env:
+          APP_STORE_CONNECT_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_KEY_BASE64 }}
+        run: |
+          echo "$APP_STORE_CONNECT_KEY_BASE64" | base64 --decode > ios/fastlane/AuthKey_P35FX53X5A.p8
+
+      - name: Fastlane Match (App Store)
+        run: |
+          cd ios
+          bundle exec fastlane match appstore --readonly
+
+      # - name: Fastlane Match (Development)
+      #   run: |
+      #     cd ios
+      #     bundle exec fastlane match development --readonly
+
+      - name: Build and Upload to TestFlight
+        env:
+          APP_STORE_CONNECT_KEY_ID: P35FX53X5A
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_PATH: ios/fastlane/AuthKey_P35FX53X5A.p8
+        run: |
+          cd ios
+          bundle exec fastlane release
+
+      - name: Clean up API Key
+        run: rm -f ios/fastlane/AuthKey_P35FX53X5A.p8
+
+      - name: Send Teams notification on failure
+        if: failure() || cancelled()
+        run: |
+          curl -H "Content-Type: application/json" \
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "FF0000",
+                "title": "🚀 iOS App deployment status",
+                "text": "🚨 Deployment Failed! Error logs:Fast Lane Service Failed"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
+
+      - name: Send Teams notification on success
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+                -d '{
+                "@type": "MessageCard",
+                "@context": "https://schema.org/extensions",
+                "summary": "Notification",
+                "themeColor": "0076D7",
+                "title": "🚀 iOS App deployment status",
+                "text": "✅ Deployed To TestFlight 🎉!"
+                }' \
+                ${{ secrets.TEAMSWEBHOOK }}
