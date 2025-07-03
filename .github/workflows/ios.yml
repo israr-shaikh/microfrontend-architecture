@@ -2,6 +2,7 @@ name: iOS CI and CD
 
 on:
   workflow_dispatch:
+  push:
     branches:
       - main
 
