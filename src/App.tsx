@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 function App() {
   return (
     <View>
-      <Text>App src file called</Text>
+      <Text>App src file called Bro</Text>
     </View>
   );
 }
